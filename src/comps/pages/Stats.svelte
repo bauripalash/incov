@@ -125,7 +125,7 @@
         <div class="level is-mobile">
           <div class="level-item has-text-centered">
             <div>
-              <p class="heading">Offical Data</p>
+              <p class="heading">Official Data</p>
               <p class="title has-text-danger">{infected_o}</p>
 
             </div>
@@ -146,7 +146,7 @@
         <div class="level is-mobile">
           <div class="level-item has-text-centered">
             <div>
-              <p class="heading">Offical Data</p>
+              <p class="heading">Official Data</p>
               <p class="title has-text-danger">{d_o}</p>
             </div>
           </div>
@@ -165,7 +165,7 @@
         <div class="level is-mobile">
           <div class="level-item has-text-centered">
             <div>
-              <p class="heading">Offical Data</p>
+              <p class="heading">Official Data</p>
               <p class="title has-text-success">{r_o}</p>
             </div>
           </div>
@@ -185,7 +185,7 @@
         <div class="level is-mobile">
           <div class="level-item has-text-centered">
             <div>
-              <p class="heading">Offical Data</p>
+              <p class="heading">Official Data</p>
               <p class="title has-text-link">{s_o}</p>
               <p class="has-text-link">[▲{su_d}]</p>
             </div>
