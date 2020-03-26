@@ -134,7 +134,7 @@
             <div>
               <p class="heading">Unofficial Data</p>
               <p class="title has-text-danger">{infected_u}</p>
-              <p class="has-text-danger">[+{iu_d}]</p>
+              <p class="has-text-danger">[▲{iu_d}]</p>
             </div>
           </div>
         </div>
@@ -154,7 +154,7 @@
             <div>
               <p class="heading">Unofficial Data</p>
               <p class="title has-text-danger">{d_u}</p>
-              <p class="has-text-danger">[+{du_d}]</p>
+              <p class="has-text-danger">[▲{du_d}]</p>
             </div>
           </div>
         </div>
@@ -173,7 +173,7 @@
             <div>
               <p class="heading">Unofficial Data</p>
               <p class="title has-text-success">{r_u}</p>
-              <p class="has-text-success">[+{ru_d}]</p>
+              <p class="has-text-success">[▲{ru_d}]</p>
             </div>
           </div>
         </div>
@@ -187,7 +187,7 @@
             <div>
               <p class="heading">Offical Data</p>
               <p class="title has-text-link">{s_o}</p>
-              <p class="has-text-link">[+{su_d}]</p>
+              <p class="has-text-link">[▲{su_d}]</p>
             </div>
           </div>
           <!-- <div class="level-item has-text-centered">

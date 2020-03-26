@@ -67,6 +67,11 @@
   }
   nav a {
     text-decoration: none;
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
   }
 </style>
 
@@ -111,6 +116,6 @@
       <Icon data={faChartLine} />
       <p class="is-size-7">Chart</p>
     </a>
-    
+
   </div>
 </nav>
