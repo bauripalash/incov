@@ -9,10 +9,10 @@
   import routes from "./routes";
   import Router from "svelte-spa-router";
 
-  import GAnalytics from "ganalytics";
+  // import GAnalytics from "ganalytics";
 
-  const ga = new GAnalytics("UA-99631053-10", { aid: 1 });
-  ga.send("pageview");
+  // const ga = new GAnalytics("UA-99631053-10", { aid: 1 });
+  // ga.send("pageview");
 </script>
 
 <style>
