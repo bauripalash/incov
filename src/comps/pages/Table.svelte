@@ -32,7 +32,7 @@
     // console.log(Object.keys(t_rows));
     t_rows.forEach(element => {
       // sd[element["state"]] =0;
-      if (Object.keys(des).indexOf(element["state"])) {
+      if (Object.keys(des).indexOf(element["state"]) >= 0) {
         // element["district"] = des[element["state"]]["districtData"][element["state"]]
         element["district"] = des[element["state"]]["districtData"];
       }
