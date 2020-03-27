@@ -6,8 +6,9 @@
   import Chart from "chart.js";
   import "chart.js/dist/Chart.min.css";
   var downlink = "";
-  var downtext = "Loading...";
-
+  var downtext = "";
+  var loadingbtn;
+  import { link } from "svelte-spa-router";
   window.chartColors = {
     red: "rgb(255, 99, 132)",
     orange: "rgb(255, 159, 64)",
@@ -100,7 +101,7 @@
           },
           onComplete: function() {
             progress.style.display = "none";
-
+            loadingbtn.style.display = "none";
             // document.getElementById("download_chart").innerText =
             //   "Download Graph";
             // downtext = "Download Graph";
@@ -204,9 +205,11 @@
           <!--  -->
         </canvas>
       </div>
-      <!-- <a href={downlink} class="button is-info is-light is-small is-fullwidth">
-        {downtext}
-      </a> -->
+      <a href="/chart" use:link
+        bind:this={loadingbtn}
+        class="button is-info is-light is-small is-fullwidth">
+        Loading...(Please Refresh if taking long)
+      </a>
       <!-- </div> -->
       <!-- </div> -->
       <!-- </div> -->

@@ -78,10 +78,10 @@
 <header>
   <ul>
     <li>
-      <a class={isHome()} on:click={() => push('/')}>Home</a>
+      <a class={isHome()} href="/" use:link>Home</a>
     </li>
     <li>
-      <a class={isInfo()} on:click={() => push('/info')}>Info</a>
+      <a class={isInfo()} href="/info" use:link>Info</a>
     </li>
   </ul>
 </header>
@@ -89,28 +89,32 @@
 <nav class="navbar is-info is-fixed-bottom" style="z-index:99999 !important;">
   <div class="navbar-brand ">
     <a
-      on:click={() => push('/')}
+      href="/"
+      use:link
       class="navbar-item is-expanded is-tab {BottomActive('/')} is-block
       has-text-centered">
       <Icon data={faChartPie} />
       <p class="is-size-7">Stats</p>
     </a>
     <a
-      on:click={() => push('/table')}
+      href="/table"
+      use:link
       class="navbar-item is-expanded is-tab {BottomActive('/table')} is-block
       has-text-centered">
       <Icon data={faTable} />
       <p class="is-size-7">Table</p>
     </a>
     <a
-      on:click={() => push('/map')}
+      href="/map"
+      use:link
       class="navbar-item is-expanded is-tab {BottomActive('/map')} is-block
       has-text-centered">
       <Icon data={faMapMarkedAlt} />
       <p class="is-size-7">Map</p>
     </a>
     <a
-      on:click={() => push('/chart')}
+      href="/chart"
+      use:link
       class="navbar-item is-expanded is-tab {BottomActive('/chart')} is-block
       has-text-centered">
       <Icon data={faChartLine} />

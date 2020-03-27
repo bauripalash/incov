@@ -5,57 +5,70 @@
     "https://raw.githubusercontent.com/bauripalash/ncov-19-india/master/data/report.json";
   let o_url_trend =
     "https://bauripalash.github.io/ncov-19-india/data/trend.json";
+
+  let dist_json = "https://api.covid19india.org/state_district_wise.json";
+  let data_json = "https://api.covid19india.org/data.json";
   // import SvelteTable from "svelte-table";
   import axios from "axios";
 
-  var t_rows = [];
-  var t_cols = [
-    {
-      key: "state",
-      title: "State/UT"
-    },
-    {
-      key: "effected",
-      title: "Infected"
-    },
-    {
-      key: "recovered",
-      title: "Recovered"
-    },
-    {
-      key: "death",
-      title: "Deaths"
-    }
-  ];
+  var t_rows = Array();
+  var sd = Array();
 
-  // function build_table(data) {
-  //   console.log(data);
-  // t_rows = data;
-  // console.log(data);
-  // }
-
-  //   axios
-  //     .get(o_url_states)
-  //     .then(res => res.data)
-  //     .then(res => {
-  //       build_table(res.slice(0, res.length - 1));
-
-  //     });
   onMount(async () => {
-    var res = await axios.get(o_url_states).then(res => res.data);
-    // t_rows = await res.slice(0 , res.length-1);
-    t_rows = await Array.from(res.slice(0, res.length - 1));
-    console.log(t_rows);
+    var res = await axios.get(data_json).then(res => res.data);
+    var des = await axios.get(dist_json).then(res => res.data);
+    t_rows = await Array.from(
+      res["statewise"].slice(1).filter(function(x) {
+        if (parseInt(x["confirmed"]) > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+    );
+
+    t_rows.sort((a, b) => b["confirmed"] - a["confirmed"]);
+
+    // console.log(Object.keys(t_rows));
+    t_rows.forEach(element => {
+      // sd[element["state"]] =0;
+      if (Object.keys(des).indexOf(element["state"])) {
+        // element["district"] = des[element["state"]]["districtData"][element["state"]]
+        element["district"] = des[element["state"]]["districtData"];
+      }
+    });
+
+    // console.log(t_rows);
+    // var tstates = document.querySelectorAll(".tstate");
+    // tstates.length;
+    // for (var i=0; i <= tstates.length; i++){
+    //   console.log(i);
+    //   // if (tstates[i].nextSibling.classlist.contains("tdist")){
+    //   //   tstates[i].addEventListener("click", function(e){
+    //   //     console.log(e);
+    //   //   });
+    //   // }
+    // }
   });
-  // fetch(o_url_states)
-  //   .then(res => res.json())
-  //   .then(res => (t_rows = res.slice(0, res.length - 1)));
-  // console.log(t_rows);
+
+  function showDist(state) {
+    // console.log(state);
+    var t = document.querySelectorAll("[data-state='" + state + "']");
+    for (var i = 0; i < t.length; i++) {
+      t[i].classList.toggle("tdist");
+    }
+  }
 </script>
 
 <style>
   .notification {
     background-color: #ffff !important;
+  }
+  .level1 td:first-child {
+    padding-left: 25px !important;
+  }
+  .tdist {
+    visibility: collapse;
   }
 </style>
 
@@ -67,28 +80,67 @@
       is-uppercase has-text-link">
       State wise Report of India
     </h3>
+    <h4 class="is-size-5-fullhd has-text-centered">
+      (Click on State name to view Districts, if available)
+    </h4>
     <div class="table-container">
       <table class="table is-fullwidth is-hoverable">
         <thead>
           <tr>
             <th>State</th>
-            <th>Infected</th>
-            <th>Discharged</th>
-            <th>Deaths</th>
+            <th>
+              <abbr title="Infected">Infected</abbr>
+            </th>
+            <th>
+              <abbr title="Recovered">Rec.</abbr>
+            </th>
+            <th>
+              <abbr title="Deaths">Dth.</abbr>
+            </th>
           </tr>
         </thead>
         <tbody>
           {#each t_rows as s}
             <!-- <SvelteTable columns={t_cols} rows={t_rows} classNameTable="table" /> -->
 
-            <tr>
+            <tr on:click={showDist(s.state)} class="tstate">
               <td>{s.state}</td>
-              <td>{s.effected}</td>
-              <td>{s.recovered}</td>
-              <td>{s.death}</td>
+              <td>
+                {s.confirmed}
+                {#if s.delta.confirmed > 0}
+                  <br />
+                  <small class="has-text-danger">[▲{s.delta.confirmed}]</small>
+                {/if}
+              </td>
+              <td>
+                {s.recovered}
+                {#if s.delta.recovered > 0}
+                  <br />
+                  <small class="has-text-success">[▲{s.delta.recovered}]</small>
+                {/if}
+              </td>
+              <td>
+                {s.deaths}
+                {#if s.delta.deaths > 0}
+                  <br />
+                  <small class="has-text-danger">[▲{s.delta.deaths}]</small>
+                {/if}
+              </td>
             </tr>
+            {#if s.district != undefined}
+              {#each Object.keys(s.district) as dist}
+                <tr style="" data-state={s.state} class="level1 tdist">
+                  <td>➤ &nbsp; {dist}</td>
+                  <td colspan="3">{s.district[dist].confirmed}</td>
+                </tr>
+              {/each}
+            {/if}
           {:else}
-            <h2>Loading Table...</h2>
+            <h2>
+              Loading Table... (Please
+              <strong>Refresh</strong>
+              If Not Loaded Yet)
+            </h2>
           {/each}
         </tbody>
       </table>

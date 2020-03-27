@@ -13,7 +13,7 @@
       </h3>
       <br />
       <h4>
-        <a href="/">Source Code [GitHub]</a>
+        <a href="https://github.com/bauripalash/incov/">Source Code [GitHub]</a>
       </h4>
     </div>
   </article>
