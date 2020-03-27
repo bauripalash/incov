@@ -266,7 +266,7 @@
       <br />
       <article class="message is-small is-warning">
         <div class="message-body has-text-centered">
-          Offical Data Updated :
+          Official Data Updated :
           <strong>{lup_o}</strong>
           ▪️ Unofficial/Crowdsourced Data Updated :
           <strong>{lup_u}</strong>
