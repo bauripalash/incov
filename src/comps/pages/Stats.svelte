@@ -15,6 +15,8 @@
   let du_d = 0;
   let ru_d = 0;
   let su_d = 0;
+  let its = "NOPE";
+  let pts = "NOPE";
   //   let s_u = 0;
   let s_o = "WAIT";
   let lup_o = 0;
@@ -31,6 +33,23 @@
     du_d = res.data["key_values"][0]["deceaseddelta"];
     ru_d = res.data["key_values"][0]["recovereddelta"];
     su_d = res.data["key_values"][0]["statesdelta"];
+    if (
+      res.data["tested"][res.data["tested"].length - 1][
+        "totalindividualstested"
+      ].length > 0
+    ) {
+      its =
+        res.data["tested"][res.data["tested"].length - 1][
+          "totalindividualstested"
+        ];
+    }
+    if (
+      res.data["tested"][res.data["tested"].length - 1]["totalpositivecases"]
+        .length > 0
+    ) {
+      pts =
+        res.data["tested"][res.data["tested"].length - 1]["totalpositivecases"];
+    }
   });
 
   axios.get(o_url_states).then(res => {
@@ -100,6 +119,26 @@
     border: 1px solid blue;
   }
   .fieldset-s > legend {
+    color: #363636;
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    background-color: #fff;
+    padding: 0 5px;
+    width: max-content;
+    border: 0 none;
+  }
+  .fieldset-t {
+    background-color: #fff;
+    border-radius: 6px;
+    /* box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), */
+    /* 0 0 0 1px rgba(10, 10, 10, 0.02); */
+    color: #4a4a4a;
+    display: block;
+    padding: 1.25rem;
+    border: 1px solid black;
+  }
+  .fieldset-t > legend {
     color: #363636;
     display: block;
     font-size: 1rem;
@@ -199,6 +238,31 @@
         </div>
       </fieldset>
       <!-- <h4 class="has-text-centered has-text-dark"> -->
+      <fieldset class="fieldset-t">
+        <legend class="has-text-dark">Total Tests Done:</legend>
+        <div class="level is-mobile">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Individuals Tested</p>
+              <p class="title has-text-dark">{its}</p>
+              <!-- <p class="has-text-link">[▲{su_d}]</p> -->
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Positive Tests</p>
+              <p class="title has-text-dark">{pts}</p>
+            </div>
+          </div>
+          <!-- <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Unofficial Data</p>
+              <p class="title has-text-link">{s_u}</p>
+            </div>
+          </div> -->
+        </div>
+      </fieldset>
+      <!--  -->
       <br />
       <article class="message is-small is-warning">
         <div class="message-body has-text-centered">
@@ -206,7 +270,7 @@
           <strong>{lup_o}</strong>
           ▪️ Unofficial/Crowdsourced Data Updated :
           <strong>{lup_u}</strong>
-          <br>
+          <br />
           <p class="has-text-link">Developed by , Palash Bauri</p>
         </div>
       </article>
