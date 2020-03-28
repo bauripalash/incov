@@ -17,7 +17,7 @@
   let su_d = 0;
   let its = "NOPE";
   let pts = "NOPE";
-  //   let s_u = 0;
+  //   let s_u = 0i;
   let s_o = "WAIT";
   let lup_o = 0;
   let lup_u = 0;
@@ -244,14 +244,14 @@
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Individuals Tested</p>
-              <p class="title has-text-dark">{its}</p>
+              <p class="title has-text-dark">{its}+</p>
               <!-- <p class="has-text-link">[▲{su_d}]</p> -->
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Positive Tests</p>
-              <p class="title has-text-dark">{pts}</p>
+              <p class="title has-text-dark">{pts}+</p>
             </div>
           </div>
           <!-- <div class="level-item has-text-centered">
