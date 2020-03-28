@@ -15,8 +15,8 @@
   let du_d = 0;
   let ru_d = 0;
   let su_d = 0;
-  let its = "NOPE";
-  let pts = "NOPE";
+  let its = "NADA";
+  let pts = "NADA";
   //   let s_u = 0i;
   let s_o = "WAIT";
   let lup_o = 0;
