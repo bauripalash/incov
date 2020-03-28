@@ -186,7 +186,7 @@
       <h3
         class="is-size-4-fullhd has-text-weight-bold has-text-centered
         is-uppercase has-text-link">
-        Coronavirus Infection Map India
+        Coronavirus Infection Graph India
       </h3>
       <progress
         id="animationProgress"
