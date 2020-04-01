@@ -15,8 +15,13 @@
   let du_d = 0;
   let ru_d = 0;
   let su_d = 0;
+  var s_u = 0;
   let its = "NADA";
   let pts = "NADA";
+  var mr_o = 0;
+  var mr_u = 0;
+  var rr_u = 0;
+  var rr_o = 0;
   //   let s_u = 0i;
   let s_o = "WAIT";
   let lup_o = 0;
@@ -25,8 +30,21 @@
 
   axios.get(u_url).then(res => {
     infected_u = res.data["statewise"][0]["confirmed"];
+    
     d_u = res.data["statewise"][0]["deaths"];
     r_u = res.data["statewise"][0]["recovered"];
+    mr_u = ((d_u / infected_u)*100).toFixed(1);
+    rr_u = ((r_u / infected_u)*100).toFixed(1);
+    s_u =  Array.from(
+      res.data["statewise"].slice(1).filter(function(x) {
+        if (parseInt(x["confirmed"]) > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+    ).length;
+    // console.log(s_u);
     // s_u = res.data["statewise"].length - 1;
     lup_u = res.data["statewise"][0]["lastupdatedtime"];
     iu_d = res.data["key_values"][0]["confirmeddelta"];
@@ -58,6 +76,8 @@
     d_o = res.data[res.data.length - 1]["total_death"];
     s_o = res.data[res.data.length - 1]["total_states"];
     lup_o = res.data[res.data.length - 1]["last_update"];
+    mr_o = ((d_o / infected_o)*100).toFixed(1);
+    rr_o = ((r_o / infected_o)*100).toFixed(1);
     // console.log(res);
   });
 </script>
@@ -226,42 +246,81 @@
             <div>
               <p class="heading">Official Data</p>
               <p class="title has-text-link">{s_o}</p>
-              <p class="has-text-link">[▲{su_d}]</p>
+              
             </div>
           </div>
-          <!-- <div class="level-item has-text-centered">
+          <div class="level-item has-text-centered">
             <div>
               <p class="heading">Unofficial Data</p>
               <p class="title has-text-link">{s_u}</p>
+              <p class="has-text-link">[▲{su_d}]</p>
             </div>
-          </div> -->
+          </div>
+        </div>
+      </fieldset>
+
+
+      <fieldset class="fieldset-t">
+        <legend class="has-text-dark">Mortality Rate:</legend>
+        <div class="level is-mobile">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Official Data</p>
+              <p class="title has-text-dark">{mr_o}%</p>
+              
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Unofficial Data</p>
+              <p class="title has-text-dark">{mr_u}%</p>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset class="fieldset-t">
+        <legend class="has-text-dark">Recovery Rate:</legend>
+        <div class="level is-mobile">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Official Data</p>
+              <p class="title has-text-dark">{rr_o}%</p>
+              
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Unofficial Data</p>
+              <p class="title has-text-dark">{rr_u}%</p>
+            </div>
+          </div>
         </div>
       </fieldset>
       <!-- <h4 class="has-text-centered has-text-dark"> -->
-      <fieldset class="fieldset-t">
+      <!-- <fieldset class="fieldset-t">
         <legend class="has-text-dark">Total Tests Done:</legend>
         <div class="level is-mobile">
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Individuals Tested</p>
-              <p class="title has-text-dark">{its}+</p>
+              <p class="title has-text-dark">{its}+</p> -->
               <!-- <p class="has-text-link">[▲{su_d}]</p> -->
-            </div>
+            <!-- </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Positive Tests</p>
               <p class="title has-text-dark">{pts}+</p>
             </div>
-          </div>
+          </div> -->
           <!-- <div class="level-item has-text-centered">
             <div>
               <p class="heading">Unofficial Data</p>
               <p class="title has-text-link">{s_u}</p>
             </div>
           </div> -->
-        </div>
-      </fieldset>
+        <!-- </div>
+      </fieldset> -->
       <!--  -->
       <br />
       <article class="message is-small is-warning">

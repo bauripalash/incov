@@ -45,17 +45,24 @@
     var death = Array();
     var ef = Array();
     var r = Array();
-    res["cases_time_series"]
-      .slice(0, res["cases_time_series"].length - 1)
-      .forEach(e => {
-        death.push(e["totaldeceased"]);
-        ef.push(e["totalconfirmed"]);
-        r.push(e["totalrecovered"]);
-        labels.push(e["date"]);
-      });
+    var t_death = Array();
+    var t_ef = Array();
+    var t_r = Array();
+    res["cases_time_series"].forEach(e => {
+      death.push(e["totaldeceased"]);
+      ef.push(e["totalconfirmed"]);
+      r.push(e["totalrecovered"]);
+      labels.push(e["date"]);
+      t_death.push(e["dailydeceased"]);
+      t_ef.push(e["dailyconfirmed"]);
+      t_r.push(e["dailyrecovered"]);
+    });
     death.push(res["statewise"][0]["deaths"]);
     ef.push(res["statewise"][0]["confirmed"]);
     r.push(res["statewise"][0]["recovered"]);
+    t_death.push(res["statewise"][0]["delta"]["deaths"]);
+    t_ef.push(res["statewise"][0]["delta"]["confirmed"]);
+    t_r.push(res["statewise"][0]["delta"]["recovered"]);
     var today = new Date();
     labels.push(`${today.getDate()} ${months[today.getMonth()]}`);
 
@@ -92,7 +99,7 @@
         maintainAspectRatio: false,
         title: {
           display: true,
-          text: "India's COVID-19 Report (covid19.palashbauri.in)"
+          text: "India's COVID-19 Totals Report (covid19.palashbauri.in)"
         },
         animation: {
           duration: 2000,
@@ -142,10 +149,86 @@
         }
       }
     };
+    var t_config = {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "DAILY CONFIRMED",
+            backgroundColor: window.chartColors.red,
+            borderColor: window.chartColors.red,
+            data: t_ef,
+            fill: false
+          },
+          {
+            label: "DAILY RECOVERED",
+            fill: false,
+            backgroundColor: window.chartColors.green,
+            borderColor: window.chartColors.green,
+            data: t_r
+          },
+          {
+            label: "DAILY DEATHS",
+            fill: false,
+            backgroundColor: window.chartColors.orange,
+            borderColor: window.chartColors.orange,
+            data: t_death
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+          display: true,
+          text: "India's COVID-19 Daily Trend (covid19.palashbauri.in)"
+        },
+        animation: {
+          duration: 2000,
+          // onProgress: function(animation) {
+          //   progress.value = animation.currentStep / animation.numSteps;
+          // },
+          onComplete: function() {
+            // progress.style.display = "none";
+            // loadingbtn.style.display = "none";
+          }
+        },
+        tooltips: {
+          mode: "index",
+          intersect: false
+        },
+        hover: {
+          mode: "nearest",
+          intersect: true
+        },
+        scales: {
+          xAxes: [
+            {
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: "Date"
+              }
+            }
+          ],
+          yAxes: [
+            {
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: "People"
+              }
+            }
+          ]
+        }
+      }
+    };
     var ctx = document.getElementById("crd").getContext("2d");
     var progress = document.getElementById("animationProgress");
     window.myLine = new Chart(ctx, config);
-
+    var ctx2 = document.getElementById("crd2").getContext("2d");
+    window.myLine2 = new Chart(ctx2, t_config);
     // console.log(death);
   }
   //   var canvas = document.getElementById('crd');
@@ -205,7 +288,18 @@
           <!--  -->
         </canvas>
       </div>
-      <a href="/chart" use:link
+      <hr>
+      <div
+        id="canvasWrapper"
+        style="position: relative; height: 70vh ; max-width:800px;margin:0 auto;">
+        <canvas id="crd2" style="">
+
+          <!--  -->
+        </canvas>
+      </div>
+      <a
+        href="/chart"
+        use:link
         bind:this={loadingbtn}
         class="button is-info is-light is-small is-fullwidth">
         Loading...(Please Refresh if taking long)

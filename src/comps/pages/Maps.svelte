@@ -3,8 +3,8 @@
   import "leaflet/dist/leaflet.css";
   import { onMount } from "svelte";
   import statesData from "../../in_states.js";
-  const REPORT_URL =
-    "https://raw.githubusercontent.com/bauripalash/ncov-19-india/master/data/report.json"; //Data Source
+  const REPORT_URL = "https://api.covid19india.org/data.json"; //Data Source
+  import axios from "axios";
   var smap; // The Map Leaflet Object
   var gj; // The GeoJSON Layer
   var infobox;
@@ -74,21 +74,27 @@
     };
   };
   onMount(() => {
-    fetch(REPORT_URL)
-      .then(res => res.json())
-      .then(res => buildmap(res));
+    var res = axios
+      .get(REPORT_URL)
+      .then(res => res.data)
+      .then(res => {
+        buildmap(res);
+      });
+
+    // fetch(REPORT_URL)
+    //   .then(res => res.data)
+    //   .then(res => buildmap(res));
   });
   const buildmap = res => {
-    res.slice(0, res.length - 1).forEach(e => {
+    console.log(res);
+    res["statewise"].slice(1).forEach(e => {
       eStateList.push(e["state"]);
-      eCountList.push(e["effected"]);
-      dList.push(e["death"]);
+      eCountList.push(e["confirmed"]);
+      dList.push(e["deaths"]);
       rList.push(e["recovered"]);
     });
     // console.log(eStateList);
-    totalInfected = eCountList.reduce((a, b) => {
-      return a + b;
-    }, 0);
+    totalInfected = res["statewise"][0]["confirmed"];
     smap = L.map("smap").setView([22.5, 82], 3);
     L.tileLayer(
       "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
@@ -113,13 +119,15 @@
     infobox.update = function(props) {
       if (props) {
         if (eStateList.indexOf(props["STATE"]) >= 0) {
-          let sd = res[eStateList.indexOf(props["STATE"])];
+          let sd = res["statewise"].slice(1)[
+            eStateList.indexOf(props["STATE"])
+          ];
           // console.log(sd);
-          let e = sd["effected"];
-          let d = sd["death"];
-          let c = sd["recovered"];
+          let e = props["STATE"] == "Jammu and Kashmir" ? parseInt(sd["confirmed"]) + parseInt(res["statewise"].slice(1)[eStateList.indexOf("Ladakh")]["confirmed"]) : sd["confirmed"] ;
+          let d = props["STATE"] == "Jammu and Kashmir" ? parseInt(sd["deaths"]) + parseInt(res["statewise"].slice(1)[eStateList.indexOf("Ladakh")]["deaths"]) : sd["deaths"];
+          let c = props["STATE"] == "Jammu and Kashmir" ? parseInt(sd["recovered"]) + parseInt(res["statewise"].slice(1)[eStateList.indexOf("Ladakh")]["recovered"]) : sd["recovered"];
 
-          status = `<div style="padding: 6px 8px;font: 14px/16px Arial, Helvetica, sans-serif;background: white;background: rgba(255, 255, 255, 0.8);box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);border-radius: 5px;"><h4 style="margin: 0 0 5px;color: black;font-weight:bold;">${props["STATE"]}</h4>`;
+          status = `<div style="padding: 6px 8px;font: 14px/16px Arial, Helvetica, sans-serif;background: white;background: rgba(255, 255, 255, 0.8);box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);border-radius: 5px;"><h4 style="margin: 0 0 5px;color: black;font-weight:bold;">${props["STATE"]=="Jammu and Kashmir" ? "J&K and Ladakh" : props["STATE"]}</h4>`;
           status += `<div class="infos"><strong>Effected: </strong><span style="color:red">${e}</span><br>`;
           status += `<strong>Deaths: </strong><span style="color:red">${d}</span><br>`;
           status += `<strong>Recovered: </strong><span style="color:green">${c}</span><br></div></div>`;
@@ -146,8 +154,8 @@
     width: 80vw;
     margin: 0 auto;
   }
-  .notification{
-    background-color:#ffff;
+  .notification {
+    background-color: #ffff;
   }
 </style>
 
