@@ -3,7 +3,7 @@
   import "leaflet/dist/leaflet.css";
   import { onMount } from "svelte";
   import statesData from "../../in_states.js";
-  const REPORT_URL = "https://api.covid19india.org/data.json"; //Data Source
+  const REPORT_URL = "https://raw.githubusercontent.com/covid19india/api/master/data.json"; //Data Source
   import axios from "axios";
   var smap; // The Map Leaflet Object
   var gj; // The GeoJSON Layer
@@ -56,9 +56,8 @@
     let e = 0;
     if (eStateList.indexOf(s.properties["STATE"]) >= 0) {
       if (s.properties["STATE"] == "Jammu and Kashmir") {
-        e =
-          eCountList[eStateList.indexOf(s.properties["STATE"])] +
-          eCountList[eStateList.indexOf("Ladakh")];
+        e = eCountList[eStateList.indexOf("Jammu and Kashmir")]
+          // eCountList[eStateList.indexOf("Ladakh")];
       } else {
         e = eCountList[eStateList.indexOf(s.properties["STATE"])];
       }
@@ -86,7 +85,7 @@
     //   .then(res => buildmap(res));
   });
   const buildmap = res => {
-    console.log(res);
+    // console.log(res);
     res["statewise"].slice(1).forEach(e => {
       eStateList.push(e["state"]);
       eCountList.push(e["confirmed"]);

@@ -1,5 +1,5 @@
 <script>
-  let u_url = "https://api.covid19india.org/data.json";
+  let u_url = "https://raw.githubusercontent.com/covid19india/api/master/data.json";
   let o_url_states =
     "https://raw.githubusercontent.com/bauripalash/ncov-19-india/master/data/report.json";
   let o_url_trend =
