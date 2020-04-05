@@ -60,9 +60,9 @@
     death.push(res["statewise"][0]["deaths"]);
     ef.push(res["statewise"][0]["confirmed"]);
     r.push(res["statewise"][0]["recovered"]);
-    t_death.push(res["statewise"][0]["delta"]["deaths"]);
-    t_ef.push(res["statewise"][0]["delta"]["confirmed"]);
-    t_r.push(res["statewise"][0]["delta"]["recovered"]);
+    t_death.push(res["statewise"][0]["deltadeaths"]);
+    t_ef.push(res["statewise"][0]["deltaconfirmed"]);
+    t_r.push(res["statewise"][0]["deltarecovered"]);
     var today = new Date();
     labels.push(`${today.getDate()} ${months[today.getMonth()]}`);
 

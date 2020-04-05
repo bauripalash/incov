@@ -107,23 +107,23 @@
               <td>{s.state}</td>
               <td>
                 {s.confirmed}
-                {#if s.delta.confirmed > 0}
+                {#if s.deltaconfirmed > 0}
                   <br />
-                  <small class="has-text-danger">[▲{s.delta.confirmed}]</small>
+                  <small class="has-text-danger">[▲{s.deltaconfirmed}]</small>
                 {/if}
               </td>
               <td>
                 {s.recovered}
-                {#if s.delta.recovered > 0}
+                {#if s.deltarecovered > 0}
                   <br />
-                  <small class="has-text-success">[▲{s.delta.recovered}]</small>
+                  <small class="has-text-success">[▲{s.deltarecovered}]</small>
                 {/if}
               </td>
               <td>
                 {s.deaths}
-                {#if s.delta.deaths > 0}
+                {#if s.deltadeaths > 0}
                   <br />
-                  <small class="has-text-danger">[▲{s.delta.deaths}]</small>
+                  <small class="has-text-danger">[▲{s.deltadeaths}]</small>
                 {/if}
               </td>
             </tr>

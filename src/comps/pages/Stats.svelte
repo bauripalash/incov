@@ -47,10 +47,10 @@
     // console.log(s_u);
     // s_u = res.data["statewise"].length - 1;
     lup_u = res.data["statewise"][0]["lastupdatedtime"];
-    iu_d = res.data["key_values"][0]["confirmeddelta"];
-    du_d = res.data["key_values"][0]["deceaseddelta"];
-    ru_d = res.data["key_values"][0]["recovereddelta"];
-    su_d = res.data["key_values"][0]["statesdelta"];
+    iu_d = res.data["statewise"][0]["deltaconfirmed"];
+    du_d = res.data["statewise"][0]["deltadeaths"];
+    ru_d = res.data["statewise"][0]["deltarecovered"];
+    su_d = 0 //res.data["statewise"][0]["statesdelta"];
     if (
       res.data["tested"][res.data["tested"].length - 1][
         "totalindividualstested"
@@ -253,7 +253,7 @@
             <div>
               <p class="heading">Unofficial Data</p>
               <p class="title has-text-link">{s_u}</p>
-              <p class="has-text-link">[▲{su_d}]</p>
+              <!-- <p class="has-text-link">[▲{su_d}]</p> -->
             </div>
           </div>
         </div>
