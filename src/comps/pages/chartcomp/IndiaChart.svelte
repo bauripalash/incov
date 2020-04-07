@@ -21,6 +21,14 @@
   };
 
   onMount(async () => {
+    if (window.myLine) {
+      // console.log("YES1");
+      window.myLine.destroy();
+    }
+    if (window.myLine2) {
+      // console.log("YES2");
+      window.myLine2.destroy();
+    }
     fetch(uu)
       .then(res => res.json())
       .then(res => buildchart(res));
@@ -192,7 +200,7 @@
           // },
           onComplete: function() {
             // progress.style.display = "none";
-            // loadingbtn.style.display = "none";
+            loadingbtn.style.display = "none";
           }
         },
         tooltips: {
@@ -225,6 +233,14 @@
         }
       }
     };
+    if (window.myLine) {
+      // console.log("YES1");
+      window.myLine.destroy();
+    }
+    if (window.myLine2) {
+      // console.log("YES2");
+      window.myLine2.destroy();
+    }
     var ctx = document.getElementById("crd").getContext("2d");
     var progress = document.getElementById("animationProgress");
     window.myLine = new Chart(ctx, config);
@@ -243,7 +259,7 @@
 
 @media only screen and (max-width: 768px) {
 */
-  
+
   canvas {
     margin: auto 0;
   }
@@ -262,6 +278,9 @@
   } */
 </style>
 
+<p bind:this={loadingbtn} class="button is-info is-light is-small is-fullwidth">
+  Loading...(Please Refresh if taking long)
+</p>
 <progress
   id="animationProgress"
   max="1"
@@ -288,13 +307,7 @@
     <!--  -->
   </canvas>
 </div>
-<a
-  href="/chart"
-  use:link
-  bind:this={loadingbtn}
-  class="button is-info is-light is-small is-fullwidth">
-  Loading...(Please Refresh if taking long)
-</a>
+
 <!-- </div> -->
 <!-- </div> -->
 <!-- </div> -->

@@ -97,14 +97,17 @@
       </div>
       <!-- <p>{params.state}</p> -->
       {#if params.state != null}
-        <StateChart bind:selected/>
+        <!-- <StateChart bind:selected/>
+         -->
+         <svelte:component this={StateChart} bind:selected/>
       {:else}
       <h3
         class="is-size-4-fullhd has-text-weight-bold has-text-centered
         is-uppercase has-text-link">
         INDIA
       </h3>
-        <IndiaChart />
+      <svelte:component this={IndiaChart}/>
+        <!-- <IndiaChart /> -->
       {/if}
 
     </div>

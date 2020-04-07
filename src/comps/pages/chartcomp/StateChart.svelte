@@ -302,6 +302,9 @@
   has-text-link">
   {STATE_SHORT_CODES[selected]}
 </h3>
+<p bind:this={loadingbtn} class="button is-info is-light is-small is-fullwidth">
+  Loading...(Please Refresh if taking long)
+</p>
 <progress
   id="animationProgress"
   max="1"
@@ -328,9 +331,7 @@
     <!--  -->
   </canvas>
 </div>
-<p bind:this={loadingbtn} class="button is-info is-light is-small is-fullwidth">
-  Loading...(Please Refresh if taking long)
-</p>
+
 <br>
 <p style="color:gray" class="is-fullhd has-text-centered">(Data might be incomplete!)</p>
 <br>
