@@ -14,7 +14,7 @@ const routes = {
   "/map": Maps,
 
   // Wildcard parameter
-  "/chart": Charts,
+  "/chart/:state?": Charts,
 
   // Catch-all
   // This is optional, but if present it must be the last

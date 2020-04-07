@@ -10,10 +10,18 @@
   } from "@fortawesome/free-solid-svg-icons";
   import { link, push, pop, location } from "svelte-spa-router";
   $: BottomActive = str => {
-    if ($location == str) {
-      return "is-active";
-    } else {
-      return "";
+    if (str != "/chart") {
+      if ($location == str) {
+        return "is-active";
+      } else {
+        return "";
+      }
+    }else{
+      if ($location.includes(str)) {
+        return "is-active";
+      } else {
+        return "";
+      }
     }
   };
 

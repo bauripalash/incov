@@ -6,8 +6,10 @@
   let o_url_trend =
     "https://bauripalash.github.io/ncov-19-india/data/trend.json";
 
-  let dist_json = "https://raw.githubusercontent.com/covid19india/api/master/state_district_wise.json";
-  let data_json = "https://raw.githubusercontent.com/covid19india/api/master/data.json";
+  let dist_json =
+    "https://raw.githubusercontent.com/covid19india/api/master/state_district_wise.json";
+  let data_json =
+    "https://raw.githubusercontent.com/covid19india/api/master/data.json";
   // import SvelteTable from "svelte-table";
   import axios from "axios";
 
@@ -17,6 +19,7 @@
   onMount(async () => {
     var res = await axios.get(data_json).then(res => res.data);
     var des = await axios.get(dist_json).then(res => res.data);
+
     t_rows = await Array.from(
       res["statewise"].slice(1).filter(function(x) {
         if (parseInt(x["confirmed"]) > 0) {
@@ -32,6 +35,7 @@
     // console.log(Object.keys(t_rows));
     t_rows.forEach(element => {
       // sd[element["state"]] =0;
+      // console.log(`${element["statecode"]} : "${element["state"]}"`)
       if (Object.keys(des).indexOf(element["state"]) >= 0) {
         // element["district"] = des[element["state"]]["districtData"][element["state"]]
         element["district"] = des[element["state"]]["districtData"];
@@ -131,7 +135,14 @@
               {#each Object.keys(s.district) as dist}
                 <tr style="" data-state={s.state} class="level1 tdist">
                   <td>➤ &nbsp; {dist}</td>
-                  <td colspan="3">{s.district[dist].confirmed}</td>
+                  <td colspan="3">
+                    {s.district[dist].confirmed}
+                    {#if s.district[dist].delta.confirmed > 0}
+                      <small class="has-text-danger">
+                        [▲{s.district[dist].delta.confirmed}]
+                      </small>
+                    {/if}
+                  </td>
                 </tr>
               {/each}
             {/if}

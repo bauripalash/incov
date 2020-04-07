@@ -1,266 +1,75 @@
 <script>
-  let uu = "https://raw.githubusercontent.com/covid19india/api/master/data.json";
+  export let params = {};
+  import IndiaChart from "./chartcomp/IndiaChart.svelte";
+  import StateChart from "./chartcomp/StateChart.svelte";
+  import { push , location  } from "svelte-spa-router";
+  import { onMount } from 'svelte';
 
-  import { onMount } from "svelte";
-  import axios from "axios";
-  import Chart from "chart.js";
-  import "chart.js/dist/Chart.min.css";
-  var downlink = "";
-  var downtext = "";
-  var loadingbtn;
-  import { link } from "svelte-spa-router";
-  window.chartColors = {
-    red: "rgb(255, 99, 132)",
-    orange: "rgb(255, 159, 64)",
-    yellow: "rgb(255, 205, 86)",
-    green: "rgb(75, 192, 192)",
-    blue: "rgb(54, 162, 235)",
-    purple: "rgb(153, 102, 255)",
-    grey: "rgb(201, 203, 207)"
+  const STATE_SHORT_CODES = {
+    MH: "Maharashtra",
+    TN: "Tamil Nadu",
+    DL: "Delhi",
+    TG: "Telangana",
+    KL: "Kerala",
+    RJ: "Rajasthan",
+    UP: "Uttar Pradesh",
+    AP: "Andhra Pradesh",
+    MP: "Madhya Pradesh",
+    KA: "Karnataka",
+    GJ: "Gujarat",
+    JK: "Jammu and Kashmir",
+    HR: "Haryana",
+    WB: "West Bengal",
+    PB: "Punjab",
+    OR: "Odisha",
+    BR: "Bihar",
+    UT: "Uttarakhand",
+    AS: "Assam",
+    CH: "Chandigarh",
+    LA: "Ladakh",
+    HP: "Himachal Pradesh",
+    AN: "Andaman and Nicobar Islands",
+    CT: "Chhattisgarh",
+    GA: "Goa",
+    PY: "Puducherry",
+    JH: "Jharkhand",
+    MN: "Manipur",
+    MZ: "Mizoram",
+    AR: "Arunachal Pradesh",
+    DN: "Dadra and Nagar Haveli"
   };
-
-  onMount(async () => {
-    fetch(uu)
-      .then(res => res.json())
-      .then(res => buildchart(res));
-  });
-
-  function buildchart(res) {
-    //   console.log(res);
-    var months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    ];
-    var labels = Array();
-    var death = Array();
-    var ef = Array();
-    var r = Array();
-    var t_death = Array();
-    var t_ef = Array();
-    var t_r = Array();
-    res["cases_time_series"].forEach(e => {
-      death.push(e["totaldeceased"]);
-      ef.push(e["totalconfirmed"]);
-      r.push(e["totalrecovered"]);
-      labels.push(e["date"]);
-      t_death.push(e["dailydeceased"]);
-      t_ef.push(e["dailyconfirmed"]);
-      t_r.push(e["dailyrecovered"]);
-    });
-    death.push(res["statewise"][0]["deaths"]);
-    ef.push(res["statewise"][0]["confirmed"]);
-    r.push(res["statewise"][0]["recovered"]);
-    t_death.push(res["statewise"][0]["deltadeaths"]);
-    t_ef.push(res["statewise"][0]["deltaconfirmed"]);
-    t_r.push(res["statewise"][0]["deltarecovered"]);
-    var today = new Date();
-    labels.push(`${today.getDate()} ${months[today.getMonth()]}`);
-
-    var config = {
-      type: "line",
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: "CONFIRMED",
-            backgroundColor: window.chartColors.red,
-            borderColor: window.chartColors.red,
-            data: ef,
-            fill: false
-          },
-          {
-            label: "RECOVERED",
-            fill: false,
-            backgroundColor: window.chartColors.green,
-            borderColor: window.chartColors.green,
-            data: r
-          },
-          {
-            label: "DEATHS",
-            fill: false,
-            backgroundColor: window.chartColors.orange,
-            borderColor: window.chartColors.orange,
-            data: death
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        title: {
-          display: true,
-          text: "India's COVID-19 Totals Report (covid19.palashbauri.in)"
-        },
-        animation: {
-          duration: 2000,
-          onProgress: function(animation) {
-            progress.value = animation.currentStep / animation.numSteps;
-          },
-          onComplete: function() {
-            progress.style.display = "none";
-            loadingbtn.style.display = "none";
-            // document.getElementById("download_chart").innerText =
-            //   "Download Graph";
-            // downtext = "Download Graph";
-            // const canvas = document.getElementById("crd");
-            // var heightRatio = 2;
-            // canvas.height = canvas.width * heightRatio;
-            // downlink = canvas.toDataURL("image/jpg");
-            // document.getElementById("download_chart").href = image;
-          }
-        },
-        tooltips: {
-          mode: "index",
-          intersect: false
-        },
-        hover: {
-          mode: "nearest",
-          intersect: true
-        },
-        scales: {
-          xAxes: [
-            {
-              display: true,
-              scaleLabel: {
-                display: true,
-                labelString: "Date"
-              }
-            }
-          ],
-          yAxes: [
-            {
-              display: true,
-              scaleLabel: {
-                display: true,
-                labelString: "People"
-              }
-            }
-          ]
-        }
+  let selected;
+  const selectedChange = () => {
+    // console.log(selected);
+    if (selected === "INDIA") {
+      if (params.state) {
+        push("/chart/");
       }
-    };
-    var t_config = {
-      type: "line",
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: "DAILY CONFIRMED",
-            backgroundColor: window.chartColors.red,
-            borderColor: window.chartColors.red,
-            data: t_ef,
-            fill: false
-          },
-          {
-            label: "DAILY RECOVERED",
-            fill: false,
-            backgroundColor: window.chartColors.green,
-            borderColor: window.chartColors.green,
-            data: t_r
-          },
-          {
-            label: "DAILY DEATHS",
-            fill: false,
-            backgroundColor: window.chartColors.orange,
-            borderColor: window.chartColors.orange,
-            data: t_death
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        title: {
-          display: true,
-          text: "India's COVID-19 Daily Trend (covid19.palashbauri.in)"
-        },
-        animation: {
-          duration: 2000,
-          // onProgress: function(animation) {
-          //   progress.value = animation.currentStep / animation.numSteps;
-          // },
-          onComplete: function() {
-            // progress.style.display = "none";
-            // loadingbtn.style.display = "none";
-          }
-        },
-        tooltips: {
-          mode: "index",
-          intersect: false
-        },
-        hover: {
-          mode: "nearest",
-          intersect: true
-        },
-        scales: {
-          xAxes: [
-            {
-              display: true,
-              scaleLabel: {
-                display: true,
-                labelString: "Date"
-              }
-            }
-          ],
-          yAxes: [
-            {
-              display: true,
-              scaleLabel: {
-                display: true,
-                labelString: "People"
-              }
-            }
-          ]
-        }
-      }
-    };
-    var ctx = document.getElementById("crd").getContext("2d");
-    var progress = document.getElementById("animationProgress");
-    window.myLine = new Chart(ctx, config);
-    var ctx2 = document.getElementById("crd2").getContext("2d");
-    window.myLine2 = new Chart(ctx2, t_config);
-    // console.log(death);
-  }
-  //   var canvas = document.getElementById('crd');
+    } else {
+      push("/chart/" + selected);
+    }
+  };
+  onMount(()=>{
+    if ($location.split("/").length === 3){
+      // selected = $location.split("/")[2]
+      push("/chart");
+    }
+  })
+  // $: params.state , console.log(params.state);
+//   $ : stateShortCode = function(){
+//       return selected
+//   }
+
+//   $ : stateName = function(){
+//       return STATE_SHORT_CODES[selected]
+//   }
+// console.log(selected, $location.split("/"))
 </script>
 
 <style>
-  /* #crd{
-    height: 100px;
-    width: 100%;
-}
-
-@media only screen and (max-width: 768px) {
-*/
   .notification {
     background-color: white;
   }
-  canvas {
-    margin: auto 0;
-  }
-  /* .cx {
-    width: 80%;
-    margin: 0 auto;
-    height: 100px;
-  } */
-
-  /* @media (min-width: 600px) {
-    canvas {
-      margin: auto 0;
-      height: 100rem;
-      width: 100%;
-    }
-  } */
 </style>
 
 <div class="chartbox" id="chartbox">
@@ -269,47 +78,35 @@
       <h3
         class="is-size-4-fullhd has-text-weight-bold has-text-centered
         is-uppercase has-text-link">
-        Coronavirus Infection Graph India
+        Coronavirus Infection Graph India & States
       </h3>
-      <progress
-        id="animationProgress"
-        max="1"
-        value="0"
-        style="width: 100%;height:10px;" />
-      <!-- <div
-        class="chart-containerx"
-        style="height:40vh; width:80vw"> -->
-      <!-- <div class="cx"> -->
-      <div
-        id="canvasWrapper"
-        style="position: relative; height: 70vh ; max-width:800px;margin:0 auto;">
-        <canvas id="crd" style="">
+      <h5 class="is-size-7-fullhd has-text-centered">
+      (Select State From Below)
+    </h5>
+      <div style="margin:8px auto;" class="control is-expanded">
+        <!-- <label style="display:inline-block;">Select State:</label> -->
+        <div class="select is-fullwidth is-small is-rounded is-primary">
 
-          <!--  -->
-        </canvas>
+          <select bind:value={selected} on:change={() => selectedChange()}>
+            <option value="INDIA">India</option>
+            {#each Object.keys(STATE_SHORT_CODES) as state}
+              <option value={state}>{STATE_SHORT_CODES[state]}</option>
+            {/each}
+          </select>
+        </div>
       </div>
-      <hr>
-      <div
-        id="canvasWrapper"
-        style="position: relative; height: 70vh ; max-width:800px;margin:0 auto;">
-        <canvas id="crd2" style="">
+      <!-- <p>{params.state}</p> -->
+      {#if params.state != null}
+        <StateChart bind:selected/>
+      {:else}
+      <h3
+        class="is-size-4-fullhd has-text-weight-bold has-text-centered
+        is-uppercase has-text-link">
+        INDIA
+      </h3>
+        <IndiaChart />
+      {/if}
 
-          <!--  -->
-        </canvas>
-      </div>
-      <a
-        href="/chart"
-        use:link
-        bind:this={loadingbtn}
-        class="button is-info is-light is-small is-fullwidth">
-        Loading...(Please Refresh if taking long)
-      </a>
-      <!-- </div> -->
-      <!-- </div> -->
-      <!-- </div> -->
     </div>
   </div>
 </div>
-
-<br />
-<br />
