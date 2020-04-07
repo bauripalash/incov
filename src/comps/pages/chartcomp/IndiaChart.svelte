@@ -203,6 +203,11 @@
             loadingbtn.style.display = "none";
           }
         },
+        events: ["click", "mousemove", "mouseout", "touchstart", "touchmove"],
+        tooltips: {
+          mode: "nearest"
+        },
+        
         tooltips: {
           mode: "index",
           intersect: false
@@ -241,6 +246,22 @@
       // console.log("YES2");
       window.myLine2.destroy();
     }
+    Chart.defaults.global.elements.line.fill = true;
+
+    Chart.defaults.global.tooltips.intersect = false;
+    Chart.defaults.global.tooltips.backgroundColor = "rgba(255, 255, 255, 0.8)";
+    Chart.defaults.global.tooltips.displayColors = false;
+    Chart.defaults.global.tooltips.borderColor = "#3273dc";
+    Chart.defaults.global.tooltips.borderWidth = 1;
+    Chart.defaults.global.tooltips.titleFontColor = "#000";
+    Chart.defaults.global.tooltips.bodyFontColor = "#000";
+    Chart.defaults.global.tooltips.caretPadding = 4;
+    Chart.defaults.global.tooltips.mode = "nearest";
+    Chart.defaults.global.tooltips.position = "nearest";
+
+    Chart.defaults.global.legend.display = true;
+
+    Chart.defaults.global.hover.intersect = false;
     var ctx = document.getElementById("crd").getContext("2d");
     var progress = document.getElementById("animationProgress");
     window.myLine = new Chart(ctx, config);
