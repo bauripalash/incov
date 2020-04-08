@@ -1,5 +1,7 @@
 <script>
-  let u_url = "https://raw.githubusercontent.com/covid19india/api/master/data.json";
+  import Demographic from "./chartcomp/Demographic.svelte";
+  let u_url =
+    "https://raw.githubusercontent.com/covid19india/api/master/data.json";
   let o_url_states =
     "https://raw.githubusercontent.com/bauripalash/ncov-19-india/master/data/report.json";
   let o_url_trend =
@@ -30,12 +32,12 @@
 
   axios.get(u_url).then(res => {
     infected_u = res.data["statewise"][0]["confirmed"];
-    
+
     d_u = res.data["statewise"][0]["deaths"];
     r_u = res.data["statewise"][0]["recovered"];
-    mr_u = ((d_u / infected_u)*100).toFixed(1);
-    rr_u = ((r_u / infected_u)*100).toFixed(1);
-    s_u =  Array.from(
+    mr_u = ((d_u / infected_u) * 100).toFixed(1);
+    rr_u = ((r_u / infected_u) * 100).toFixed(1);
+    s_u = Array.from(
       res.data["statewise"].slice(1).filter(function(x) {
         if (parseInt(x["confirmed"]) > 0) {
           return true;
@@ -50,7 +52,7 @@
     iu_d = res.data["statewise"][0]["deltaconfirmed"];
     du_d = res.data["statewise"][0]["deltadeaths"];
     ru_d = res.data["statewise"][0]["deltarecovered"];
-    su_d = 0 //res.data["statewise"][0]["statesdelta"];
+    su_d = 0; //res.data["statewise"][0]["statesdelta"];
     if (
       res.data["tested"][res.data["tested"].length - 1][
         "totalindividualstested"
@@ -76,10 +78,15 @@
     d_o = res.data[res.data.length - 1]["total_death"];
     s_o = res.data[res.data.length - 1]["total_states"];
     lup_o = res.data[res.data.length - 1]["last_update"];
-    mr_o = ((d_o / infected_o)*100).toFixed(1);
-    rr_o = ((r_o / infected_o)*100).toFixed(1);
+    mr_o = ((d_o / infected_o) * 100).toFixed(1);
+    rr_o = ((r_o / infected_o) * 100).toFixed(1);
     // console.log(res);
   });
+
+  let displayDemographics = false;
+  function toggleDemographics() {
+    displayDemographics = !displayDemographics;
+  }
 </script>
 
 <style>
@@ -246,7 +253,7 @@
             <div>
               <p class="heading">Official Data</p>
               <p class="title has-text-link">{s_o}</p>
-              
+
             </div>
           </div>
           <div class="level-item has-text-centered">
@@ -259,7 +266,6 @@
         </div>
       </fieldset>
 
-
       <fieldset class="fieldset-t">
         <legend class="has-text-dark">Mortality Rate:</legend>
         <div class="level is-mobile">
@@ -267,7 +273,7 @@
             <div>
               <p class="heading">Official Data</p>
               <p class="title has-text-dark">{mr_o}%</p>
-              
+
             </div>
           </div>
           <div class="level-item has-text-centered">
@@ -285,7 +291,7 @@
             <div>
               <p class="heading">Official Data</p>
               <p class="title has-text-dark">{rr_o}%</p>
-              
+
             </div>
           </div>
           <div class="level-item has-text-centered">
@@ -296,6 +302,29 @@
           </div>
         </div>
       </fieldset>
+      <br />
+      {#if !displayDemographics}
+        <div class="columns is-mobile is-centered">
+          <button
+            on:click={() => toggleDemographics()}
+            id="display"
+            class="button is-info is-fullhd">
+            View Graphical Statistics
+          </button>
+        </div>
+      {/if}
+
+      {#if displayDemographics}
+        <Demographic
+          totalEffected={infected_u}
+          totalDeaths={d_u}
+          totalRecovered={r_u}
+          totalStates={s_u} 
+          deltaEffected={iu_d}
+          deltaDeaths={du_d}
+          deltaRecovered={ru_d}/>
+      {/if}
+
       <!-- <h4 class="has-text-centered has-text-dark"> -->
       <!-- <fieldset class="fieldset-t">
         <legend class="has-text-dark">Total Tests Done:</legend>
@@ -304,8 +333,8 @@
             <div>
               <p class="heading">Individuals Tested</p>
               <p class="title has-text-dark">{its}+</p> -->
-              <!-- <p class="has-text-link">[▲{su_d}]</p> -->
-            <!-- </div>
+      <!-- <p class="has-text-link">[▲{su_d}]</p> -->
+      <!-- </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
@@ -313,13 +342,13 @@
               <p class="title has-text-dark">{pts}+</p>
             </div>
           </div> -->
-          <!-- <div class="level-item has-text-centered">
+      <!-- <div class="level-item has-text-centered">
             <div>
               <p class="heading">Unofficial Data</p>
               <p class="title has-text-link">{s_u}</p>
             </div>
           </div> -->
-        <!-- </div>
+      <!-- </div>
       </fieldset> -->
       <!--  -->
       <br />
