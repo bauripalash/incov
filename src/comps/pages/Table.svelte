@@ -1,10 +1,10 @@
 <script>
   //   let u_url = "https://api.covid19india.org/data.json";
   import { onMount } from "svelte";
-  let o_url_states =
-    "https://raw.githubusercontent.com/bauripalash/ncov-19-india/master/data/report.json";
-  let o_url_trend =
-    "https://bauripalash.github.io/ncov-19-india/data/trend.json";
+  // let o_url_states =
+  //   "https://raw.githubusercontent.com/bauripalash/ncov-19-india/master/data/report.json";
+  // let o_url_trend =
+  //   "https://bauripalash.github.io/ncov-19-india/data/trend.json";
 
   let dist_json =
     "https://raw.githubusercontent.com/covid19india/api/master/state_district_wise.json";
@@ -42,17 +42,6 @@
       }
     });
 
-    // console.log(t_rows);
-    // var tstates = document.querySelectorAll(".tstate");
-    // tstates.length;
-    // for (var i=0; i <= tstates.length; i++){
-    //   console.log(i);
-    //   // if (tstates[i].nextSibling.classlist.contains("tdist")){
-    //   //   tstates[i].addEventListener("click", function(e){
-    //   //     console.log(e);
-    //   //   });
-    //   // }
-    // }
   });
 
   function showDist(state) {
