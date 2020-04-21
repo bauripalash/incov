@@ -7,9 +7,9 @@
   //   "https://bauripalash.github.io/ncov-19-india/data/trend.json";
 
   let dist_json =
-    "https://raw.githubusercontent.com/covid19india/api/master/state_district_wise.json";
+    "https://api.covid19india.org/state_district_wise.json";
   let data_json =
-    "https://raw.githubusercontent.com/covid19india/api/master/data.json";
+    "https://api.covid19india.org/data.json";
   // import SvelteTable from "svelte-table";
   import axios from "axios";
 
