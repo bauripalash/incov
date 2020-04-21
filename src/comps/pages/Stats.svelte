@@ -1,7 +1,7 @@
 <script>
   import Demographic from "./chartcomp/Demographic.svelte";
   let u_url =
-    "https://raw.githubusercontent.com/covid19india/api/master/data.json";
+    "https://api.covid19india.org/data.json";
   let o_url_states =
     "https://raw.githubusercontent.com/bauripalash/ncov-19-india/master/data/report.json";
   let o_url_trend =
