@@ -1,6 +1,6 @@
 <script>
   let uu =
-    "https://raw.githubusercontent.com/covid19india/api/master/data.json";
+    "https://api.covid19india.org/data.json";
 
   import { onMount } from "svelte";
   import axios from "axios";
