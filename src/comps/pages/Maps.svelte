@@ -3,7 +3,7 @@
   import "leaflet/dist/leaflet.css";
   import { onMount } from "svelte";
   import statesData from "../../in_states.js";
-  const REPORT_URL = "https://raw.githubusercontent.com/covid19india/api/master/data.json"; //Data Source
+  const REPORT_URL = "https://api.covid19india.org/data.json"; //Data Source
   import axios from "axios";
   var smap; // The Map Leaflet Object
   var gj; // The GeoJSON Layer
