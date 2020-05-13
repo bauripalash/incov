@@ -303,27 +303,7 @@
         </div>
       </fieldset>
       <br />
-      {#if !displayDemographics}
-        <div class="columns is-mobile is-centered">
-          <button
-            on:click={() => toggleDemographics()}
-            id="display"
-            class="button is-info is-fullhd">
-            View Graphical Statistics
-          </button>
-        </div>
-      {/if}
-
-      {#if displayDemographics}
-        <Demographic
-          totalEffected={infected_u}
-          totalDeaths={d_u}
-          totalRecovered={r_u}
-          totalStates={s_u} 
-          deltaEffected={iu_d}
-          deltaDeaths={du_d}
-          deltaRecovered={ru_d}/>
-      {/if}
+      
 
       <!-- <h4 class="has-text-centered has-text-dark"> -->
       <!-- <fieldset class="fieldset-t">
